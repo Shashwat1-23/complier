@@ -1,0 +1,274 @@
+1-count no  of words having length 5
+
+%{
+#include<stdio.h>
+int c=0,len=0;
+%}
+
+%%
+[a-zA-Z0-9]+ { len=strlen(yytext);
+if(len==5) {c++;}
+}
+%%
+int yywrap()
+{
+return 1;
+}
+
+int main()
+{
+yylex();
+printf("the no of characters: %d",c);
+return 0;
+}
+
+2-write a lex program to extract html tags
+%{
+#include<stdio.h>
+%}
+
+%%
+\<[^>]*\> {printf("%s\n",yytext);}
+. ;
+
+%%
+
+int main(){
+yyin=fopen("input.txt","r");
+yylex();
+return 0;
+}
+
+int yywrap(){
+return 1;
+}
+
+3-write a program to identify comments and remove them
+%{
+#include<stdio.h>
+%}
+
+%%
+\/\/[.]* {printf("single line comment");}
+\/\*(.*\n)*.*\*\/ {printf("multline");}
+%%
+
+int main(){
+yylex();
+return 0;
+}
+
+int yywrap(){
+return 1;
+}
+
+4-write a lex program to identify the identifiers in a program
+%{
+#include<stdio.h>
+%}
+
+%%
+^[a-z A-Z _][A-Z a-z 0-9 _]* { printf("valid identifiers");}
+^[^A-Za-z_] {printf("invalid identifier");}
+
+%%
+
+int main(){
+yylex();
+return 0;
+}
+
+int yywrap(){
+return 1;
+}
+
+5-write a program to identify wheather the number if float or integer
+%{
+#include<stdio.h>
+
+%}
+
+%%
+[0-9]*?\.[0-9]* {printf("float");}
+[0-9]* {printf("integer");}
+%%
+
+int main(){
+yylex();
+return 0;
+}
+
+int yywrap(){
+return 1;
+}
+
+6-write a prograam to count the numbers of characters spaces tab and new lines
+%{
+#include<stdio.h>
+int c=0,s=0,t=0,n=0;
+%}
+
+%%
+[A-Za-z0-9]  c++;
+\t t++;
+\n n++;
+[ ] s++;
+
+
+%%
+int main(){
+yylex();
+printf("NO of characters: %d",c);
+printf("NO of tabes: %d",t);
+printf("NO of new lines: %d",n);
+printf("NO of spaces: %d",s);
+}
+int yywrap(){
+return 1;
+}
+
+7-lex program to identify keywords identifiers operators and separators
+%{
+#include<stdio.h>
+%}
+
+%%
+"while"|"if"|"else"|"int"|"float"|"max" {printf("keywords");}
+[A-Za-z_][A-Za-z0-9_]* {printf("identifiers");}
+"<="|">="|"+"|"-"|"*"|"/"|"==" {printf("operators");}
+[() {} , ;] {printf("separators");}
+%%
+
+int main(){
+yylex();
+return 0;
+}
+
+int yywrap(){
+return 1;
+}
+
+8-write a program to replace white space and tags with a single space
+/*Definition Section*/
+%{
+#include<stdio.h>
+%}
+
+%%
+
+[\t" "]+ fprintf(yyout," ");		
+.|\n fprintf(yyout,"%s",yytext);	
+%%
+
+
+int yywrap()
+{
+return 1;
+}
+
+int main(void)
+{
+yyin=fopen("input.txt","r");		
+yyout=fopen("output.txt","w");
+yylex();
+return 0;
+}
+
+9-wap to print frequency of characters
+%{
+#include <stdio.h>
+#include <string.h>
+int arr[26];int s=0;char *temp;
+%}
+
+%%
+([a-z])* {s=yyleng;
+temp=(char*)calloc(s,sizeof(char));
+temp=yytext;
+for(int i=0;i<s;i++){
+	arr[temp[i]-'a']++;	
+}
+for(int i=0;i<26;i++){
+if(arr[i]>0){
+	char c='a'+i;
+	printf("%c the frequency %d",c,arr[i]);
+}
+
+}
+}
+%%
+int main(){
+yylex();
+return 0;
+}
+int yywrap(){
+return 1;
+}
+
+10-vowel and consonant
+%{
+#include<stdio.h>
+int vowel=0,consonant=0;
+
+%}
+
+%%
+[aeiouAEIOU] {vowel++;}
+
+[^aeiouAEIOU] {consonant++;}
+%%
+
+int main(){
+ printf("Enter the string of vowels and consonants:");
+    yylex();
+    printf("Number of vowels are:  %d\n", vowel);
+    printf("Number of consonants are:  %d\n", consonant);
+    return 0;
+}
+int yywrap(){
+return 1;
+}
+
+11-valid email
+%{
+#include<stdio.h>
+
+%}
+
+%%
+^[a-z][a-z0-9_]*@[a-z]+(\.[a-z]+)+ {printf("Valid");}
+. ; {printf("invalid");}
+%%
+
+int main(){
+yylex();
+return 0;
+}
+int yywrap(){
+return 1;
+}
+12-
+%{
+#include <stdio.h>
+%}
+
+%%
+[aeiouAEIOU]  {printf("%s",yytext);}
+. ;
+%%
+int main(){
+yylex();
+
+return 0;
+}
+int yywrap(){
+return 1;
+}
+
+
+
+
+
+
+
+
